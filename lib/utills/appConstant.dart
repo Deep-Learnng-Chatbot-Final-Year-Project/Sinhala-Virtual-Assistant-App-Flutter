@@ -1,5 +1,5 @@
 class AppConstant {
-  static String chatApi = "https://chat.enzy.live/chat/ask";
+  static String chatApiAsk = "https://chat.enzy.live/chat/ask";
   // {"text": " ඔයා කවුද"}
 
 

@@ -1,8 +1,12 @@
+import 'package:ai_assistant/screens/chat_screen.dart';
 import 'package:ai_assistant/theme/colors.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:highlight_text/highlight_text.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+import 'controller/appBinding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,20 +17,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'AI Assistant',
+      initialBinding: AppBinding(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          scaffoldBackgroundColor: ColorPack.backgroundColor,
+          appBarTheme: const AppBarTheme(
+            color: ColorPack.cardColor,
+          )),
       home: const SpeechScreen(),
     );
   }
 }
-
-// Some UI or other code to select a locale from the list
-// resulting in an index, selectedLocale
 
 class SpeechScreen extends StatefulWidget {
   const SpeechScreen({Key? key}) : super(key: key);
@@ -89,67 +92,71 @@ class _SpeechScreenState extends State<SpeechScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: AvatarGlow(
-        animate: _isListening,
-        glowColor: Theme.of(context).primaryColor,
-        endRadius: 75.0,
-        duration: const Duration(milliseconds: 2000),
-        repeatPauseDuration: const Duration(milliseconds: 100),
-        repeat: true,
-        showTwoGlows: true,
-        child: GestureDetector(
-          onTapDown: (details) async {
-            if (!_isListening) {
-              bool available = await _speech.initialize(
-                onStatus: (val) => print('onStatus: $val'),
-                onError: (val) => print('onError: $val'),
-              );
-              setState(() {
-                _isListening = true;
-              });
-              var locales = await _speech.locales();
-              var selectedLocale =
-                  locales.firstWhere((element) => element.localeId == 'si_LK');
-              _speech.listen(
-                localeId: selectedLocale.localeId,
-                onResult: (val) => setState(() {
-                  print(val.finalResult);
-                  _text = val.recognizedWords;
-                  if (val.hasConfidenceRating && val.confidence > 0) {
-                    _confidence = val.confidence;
-                  }
-                }),
-              );
-            }
-          },
-          onTapUp: (details) {
-            setState(() {
-              _isListening = false;
-            });
-          },
-          child: CircleAvatar(
-              radius: 30,
-              backgroundColor: ColorPack.primaryColor,
-              child: Icon(_isListening ? Icons.mic : Icons.mic_none, color: Colors.white,)),
+        elevation: 2,
+        leading: const Padding(
+          padding: EdgeInsets.all(6.0),
         ),
-      ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          child: TextHighlight(
-            text: _text,
-            words: _highlights,
-            textStyle: const TextStyle(
-              fontSize: 32.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
-            ),
+        title: const Center(child: Text('AI Assistant')),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              // await Services.showModalSheet(context: context);
+            },
+            icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
           ),
-        ),
+        ],
+      ),
+    //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    //   floatingActionButton: AvatarGlow(
+    //     animate: _isListening,
+    //     glowColor: Theme.of(context).primaryColor,
+    //     endRadius: 75.0,
+    //     duration: const Duration(milliseconds: 2000),
+    //     repeatPauseDuration: const Duration(milliseconds: 100),
+    //     repeat: true,
+    //     showTwoGlows: true,
+    //     child: GestureDetector(
+    //       onTapDown: (details) async {
+    //         if (!_isListening) {
+    //           bool available = await _speech.initialize(
+    //             onStatus: (val) => print('onStatus: $val'),
+    //             onError: (val) => print('onError: $val'),
+    //           );
+    //           setState(() {
+    //             _isListening = true;
+    //           });
+    //           var locales = await _speech.locales();
+    //           var selectedLocale =
+    //               locales.firstWhere((element) => element.localeId == 'si_LK');
+    //           _speech.listen(
+    //             localeId: selectedLocale.localeId,
+    //             onResult: (val) => setState(() {
+    //               print(val.finalResult);
+    //               _text = val.recognizedWords;
+    //               if (val.hasConfidenceRating && val.confidence > 0) {
+    //                 _confidence = val.confidence;
+    //               }
+    //             }),
+    //           );
+    //         }
+    //       },
+    //       onTapUp: (details) {
+    //         setState(() {
+    //           _isListening = false;
+    //         });
+    //       },
+    //       child: CircleAvatar(
+    //           radius: 30,
+    //           backgroundColor: ColorPack.primaryColor,
+    //           child: Icon(
+    //             _isListening ? Icons.mic : Icons.mic_none,
+    //             color: Colors.white,
+    //           )),
+    //     ),
+    //   ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: const ChatScreen(),
       ),
     );
   }
