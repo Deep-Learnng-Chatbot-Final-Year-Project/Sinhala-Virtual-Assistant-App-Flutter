@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   speech_to_text: ^5.0.0
   highlight_text: ^1.6.0
+  http: ^0.13.4
   avatar_glow: ^2.0.1
   flutter_spinkit: ^5.1.0
   animated_text_kit: ^4.2.2
