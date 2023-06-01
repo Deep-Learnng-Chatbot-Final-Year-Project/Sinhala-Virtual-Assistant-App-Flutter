@@ -12,7 +12,6 @@ class ChatController extends GetxController {
       if (response != null) {
         chatList.add(response);
       }
-      print(chatList);
     });
   }
 }
