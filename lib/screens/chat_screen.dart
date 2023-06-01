@@ -25,6 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   late stt.SpeechToText _speech;
   bool _isListening = false;
+  String _text = 'Press the button and start speaking';
   final chatController = Get.find<ChatController>();
 
   @override
