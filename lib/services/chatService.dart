@@ -20,6 +20,7 @@ class ChatService {
       if (response.statusCode == 200) {
         ChatResponse chatResponse =
             ChatResponse.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+        chatResponse.question = question;
         return chatResponse;
       } else {
         return null;

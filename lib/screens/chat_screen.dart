@@ -56,12 +56,20 @@ class _ChatScreenState extends State<ChatScreen> {
                 itemCount: chatController.chatList.length,
                 itemBuilder: (context, index) {
                   var chatMsg = chatController.chatList[index];
-                  return ChatWidget(
-                      msg: chatMsg.response, // chatList[index].msg,
-                      chatIndex: index,
-                      shouldAnimate:
-                          true // chatProvider.getChatList.length - 1 == index
-                      );
+                  return Column(
+                    children: [
+                      ChatWidget(
+                        msg: chatMsg.response, // chatList[index].msg,
+                        chatIndex: index,
+                        shouldAnimate: true,
+                        question: chatMsg
+                            .question, // chatProvider.getChatList.length - 1 == index
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  );
                 }),
           ),
           if (_isTyping) ...[
@@ -101,8 +109,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         }
                       },
                       decoration: const InputDecoration.collapsed(
-                          hintText: "How can I help you",
-                          hintStyle: TextStyle(color: Colors.grey)),
+                          hintText: "ඔබට දැනගැනීමට අවශ්‍ය මොකක්ද ",
+                          hintStyle:
+                              TextStyle(color: Colors.grey, fontSize: 10)),
                     ),
                   ),
                   IconButton(
@@ -151,7 +160,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         );
                       }
                     },
-                    onTapUp: (details) {
+                    onTapUp: (details) async {
+                      _speech.stop();
+                      await chatController.sendMessage(_text);
                       setState(() {
                         _isListening = false;
                       });
@@ -180,60 +191,3 @@ class _ChatScreenState extends State<ChatScreen> {
         curve: Curves.easeOut);
   }
 }
-
-//   Future<void> sendMessageFCT(
-//       {required ModelsProvider modelsProvider,
-//         required ChatProvider chatProvider}) async {
-//     if (_isTyping) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(
-//           content: TextWidget(
-//             label: "You cant send multiple messages at a time",
-//           ),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//       return;
-//     }
-//     if (textEditingController.text.isEmpty) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(
-//           content: TextWidget(
-//             label: "Please type a message",
-//           ),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//       return;
-//     }
-//     try {
-//       String msg = textEditingController.text;
-//       setState(() {
-//         _isTyping = true;
-//         // chatList.add(ChatModel(msg: textEditingController.text, chatIndex: 0));
-//         chatProvider.addUserMessage(msg: msg);
-//         textEditingController.clear();
-//         focusNode.unfocus();
-//       });
-//       await chatProvider.sendMessageAndGetAnswers(
-//           msg: msg, chosenModelId: modelsProvider.getCurrentModel);
-//       // chatList.addAll(await ApiService.sendMessage(
-//       //   message: textEditingController.text,
-//       //   modelId: modelsProvider.getCurrentModel,
-//       // ));
-//       setState(() {});
-//     } catch (error) {
-//       log("error $error");
-//       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//         content: TextWidget(
-//           label: error.toString(),
-//         ),
-//         backgroundColor: Colors.red,
-//       ));
-//     } finally {
-//       setState(() {
-//         scrollListToEND();
-//         _isTyping = false;
-//       });
-//     }
-//   }
