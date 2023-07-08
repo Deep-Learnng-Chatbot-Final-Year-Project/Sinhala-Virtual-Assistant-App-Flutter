@@ -106,54 +106,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
           ),
         ],
       ),
-    //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    //   floatingActionButton: AvatarGlow(
-    //     animate: _isListening,
-    //     glowColor: Theme.of(context).primaryColor,
-    //     endRadius: 75.0,
-    //     duration: const Duration(milliseconds: 2000),
-    //     repeatPauseDuration: const Duration(milliseconds: 100),
-    //     repeat: true,
-    //     showTwoGlows: true,
-    //     child: GestureDetector(
-    //       onTapDown: (details) async {
-    //         if (!_isListening) {
-    //           bool available = await _speech.initialize(
-    //             onStatus: (val) => print('onStatus: $val'),
-    //             onError: (val) => print('onError: $val'),
-    //           );
-    //           setState(() {
-    //             _isListening = true;
-    //           });
-    //           var locales = await _speech.locales();
-    //           var selectedLocale =
-    //               locales.firstWhere((element) => element.localeId == 'si_LK');
-    //           _speech.listen(
-    //             localeId: selectedLocale.localeId,
-    //             onResult: (val) => setState(() {
-    //               print(val.finalResult);
-    //               _text = val.recognizedWords;
-    //               if (val.hasConfidenceRating && val.confidence > 0) {
-    //                 _confidence = val.confidence;
-    //               }
-    //             }),
-    //           );
-    //         }
-    //       },
-    //       onTapUp: (details) {
-    //         setState(() {
-    //           _isListening = false;
-    //         });
-    //       },
-    //       child: CircleAvatar(
-    //           radius: 30,
-    //           backgroundColor: ColorPack.primaryColor,
-    //           child: Icon(
-    //             _isListening ? Icons.mic : Icons.mic_none,
-    //             color: Colors.white,
-    //           )),
-    //     ),
-    //   ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: const ChatScreen(),
