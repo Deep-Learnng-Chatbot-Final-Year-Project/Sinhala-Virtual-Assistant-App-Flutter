@@ -72,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   );
                 }),
           ),
-          if (_isTyping) ...[
+          if (_isTyping || _isListening) ...[
             const SpinKitThreeBounce(
               color: Colors.white,
               size: 18,
@@ -145,6 +145,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         );
                         setState(() {
                           _isListening = true;
+                          print("user is Listening");
                         });
                         var locales = await _speech.locales();
                         var selectedLocale = locales.firstWhere(
@@ -161,6 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       }
                     },
                     onTapUp: (details) async {
+                      await Future.delayed(const Duration(seconds: 1));
                       _speech.stop();
                       await chatController.sendMessage(_text);
                       setState(() {

@@ -3,7 +3,8 @@
 class ChatResponse {
   ChatResponse({
     required String response,
-  }) : _response = response;
+    question,
+  }) : _response = response, _question = question;
 
   ChatResponse.fromJson(dynamic json) : _response = json['response'];
 

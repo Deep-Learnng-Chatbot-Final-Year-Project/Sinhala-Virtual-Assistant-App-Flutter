@@ -1,5 +1,4 @@
 import 'package:ai_assistant/theme/colors.dart';
-import 'package:ai_assistant/widgets/text_widget.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
@@ -109,30 +108,36 @@ class ChatWidget extends StatelessWidget {
                                   fontSize: 16),
                             ),
                     ),
-                    Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Icon(
-                                Icons.thumb_up_alt_outlined,
-                                color: Colors.white,
-                                size: 14,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(
-                                Icons.thumb_down_alt_outlined,
-                                color: Colors.white,
-                                size: 14,
-                              )
-                            ],
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Icon(
+                                  Icons.thumb_up_alt_outlined,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  Icons.thumb_down_alt_outlined,
+                                  color: Colors.white,
+                                  size: 16,
+                                )
+                              ],
+                            ),
+                    ),
                   ],
                 ),
               ],
             ),
           ),
+        ),
+        const SizedBox(
+          height: 15,
         ),
       ],
     );
